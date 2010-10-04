@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Growl Safari Bridge test page</title>
+  </head>
+  <body>
+    <object type="application/x-growl-safari-bridge" width="0" height="0" id="growl-safari-bridge"></object>
+    <script type="text/javascript" language="JavaScript">
+      window.GrowlSafariBridge = document.getElementById('growl-safari-bridge');
+      GrowlSafariBridge.notify('Hello', 'This is Growl Safari Bridge.');
+    </script>
+    <a href="#" onclick="javascript:GrowlSafariBridge.notifyWithOptions('Notification', 'Link was clicked.', {isSticky: false, priority: -1})">Click here</a>
+  </body>
+</html>
