@@ -17,10 +17,10 @@
 - (BOOL)isGrowlInstalled;
 - (BOOL)isGrowlRunning;
 - (void)notifyWithTitle:(NSString *)title
-			description:(NSString *)description;
+            description:(NSString *)description;
 - (void)notifyWithTitle:(NSString *)title
-			description:(NSString *)description
-				options:(WebScriptObject *)options;
+            description:(NSString *)description
+                options:(WebScriptObject *)options;
 @end
 
 
@@ -47,7 +47,7 @@
 
 - (void)webPlugInInitialize
 {
-	[GrowlApplicationBridge setGrowlDelegate:[[GrowlSafariBridgeDelegate new] autorelease]];
+    [GrowlApplicationBridge setGrowlDelegate:[[GrowlSafariBridgeDelegate new] autorelease]];
 }
 
 - (void)webPlugInDestroy
@@ -61,24 +61,24 @@
 
 + (NSString *)webScriptNameForSelector:(SEL)selector
 {
-	if (selector == @selector(notifyWithTitle:description:)) {
-		return @"notify";
-	}
-	else if (selector == @selector(notifyWithTitle:description:options:)) {
-		return @"notifyWithOptions";
-	}
-	return [super webScriptNameForSelector:selector];
+    if (selector == @selector(notifyWithTitle:description:)) {
+        return @"notify";
+    }
+    else if (selector == @selector(notifyWithTitle:description:options:)) {
+        return @"notifyWithOptions";
+    }
+    return [super webScriptNameForSelector:selector];
 }
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector
 {
-	if (selector == @selector(isGrowlInstalled) ||
-		selector == @selector(isGrowlRunning) ||
-		selector == @selector(notifyWithTitle:description:) ||
-		selector == @selector(notifyWithTitle:description:options:)) {
-		return NO;
-	}
-	return YES;
+    if (selector == @selector(isGrowlInstalled) ||
+        selector == @selector(isGrowlRunning) ||
+        selector == @selector(notifyWithTitle:description:) ||
+        selector == @selector(notifyWithTitle:description:options:)) {
+        return NO;
+    }
+    return YES;
 }
 
 @end
@@ -88,51 +88,51 @@
 
 - (BOOL)isGrowlInstalled
 {
-	return [GrowlApplicationBridge isGrowlInstalled];
+    return [GrowlApplicationBridge isGrowlInstalled];
 }
 
 - (BOOL)isGrowlRunning
 {
-	return [GrowlApplicationBridge isGrowlRunning];
+    return [GrowlApplicationBridge isGrowlRunning];
 }
 
 - (void)notifyWithTitle:(NSString *)title
-			description:(NSString *)description
+            description:(NSString *)description
 {
-	[GrowlApplicationBridge notifyWithTitle:title
-								description:description
-						   notificationName:GSBNotification
-								   iconData:nil
-								   priority:0
-								   isSticky:NO
-							   clickContext:nil];
+    [GrowlApplicationBridge notifyWithTitle:title
+                                description:description
+                           notificationName:GSBNotification
+                                   iconData:nil
+                                   priority:0
+                                   isSticky:NO
+                               clickContext:nil];
 }
 
 - (void)notifyWithTitle:(NSString *)title
-			description:(NSString *)description
-				options:(id)options
+            description:(NSString *)description
+                options:(id)options
 {
-	
-	NSNumber *isSticky = nil;
-	NSNumber *priority = nil;
-	if (options != nil && [options isEqual:[WebUndefined undefined]]) {
-		isSticky = [options valueForKey:@"isSticky"];
-		priority = [options valueForKey:@"priority"];
-	}
-	if (isSticky == nil) {
-		isSticky = [NSNumber numberWithBool:NO];
-	}
-	if (priority == nil) {
-		priority = [NSNumber numberWithInt:0];
-	}
-	
-	[GrowlApplicationBridge notifyWithTitle:title
-								description:description
-						   notificationName:GSBNotification
-								   iconData:nil
-								   priority:[priority intValue]
-								   isSticky:[isSticky boolValue]
-							   clickContext:nil];
+    
+    NSNumber *isSticky = nil;
+    NSNumber *priority = nil;
+    if (options != nil && [options isEqual:[WebUndefined undefined]]) {
+        isSticky = [options valueForKey:@"isSticky"];
+        priority = [options valueForKey:@"priority"];
+    }
+    if (isSticky == nil) {
+        isSticky = [NSNumber numberWithBool:NO];
+    }
+    if (priority == nil) {
+        priority = [NSNumber numberWithInt:0];
+    }
+    
+    [GrowlApplicationBridge notifyWithTitle:title
+                                description:description
+                           notificationName:GSBNotification
+                                   iconData:nil
+                                   priority:[priority intValue]
+                                   isSticky:[isSticky boolValue]
+                               clickContext:nil];
 }
 
 @end
@@ -154,10 +154,10 @@
 
 - (NSDictionary *)registrationDictionaryForGrowl
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSArray arrayWithObject:GSBNotification], GROWL_NOTIFICATIONS_ALL,
-			[NSArray arrayWithObject:GSBNotification], GROWL_NOTIFICATIONS_DEFAULT,
-			nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSArray arrayWithObject:GSBNotification], GROWL_NOTIFICATIONS_ALL,
+            [NSArray arrayWithObject:GSBNotification], GROWL_NOTIFICATIONS_DEFAULT,
+            nil];
 }
 
 @end
