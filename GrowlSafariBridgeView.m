@@ -67,7 +67,7 @@
     else if (selector == @selector(notifyWithTitle:description:options:)) {
         return @"notifyWithOptions";
     }
-    return [super webScriptNameForSelector:selector];
+    return nil;
 }
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)selector
