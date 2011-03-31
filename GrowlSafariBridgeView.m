@@ -128,7 +128,7 @@
         priority = [NSNumber numberWithInt:0];
     }
     
-    NSImage *image =  [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageurl]] retain];
+    NSImage *image =  [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageurl]];
    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
@@ -137,6 +137,8 @@
                                    priority:[priority intValue]
                                    isSticky:[isSticky boolValue]
                                clickContext:nil];
+    
+    [image release];
 }
 
 @end
