@@ -128,9 +128,8 @@
         priority = [NSNumber numberWithInt:0];
     }
     
-    NSImage *image =  [[[NSImage alloc] initByReferencingURL:[NSURL URLWithString:imageurl]] retain];
+    NSImage *image =  [[[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageurl]] retain];
    
-    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:GSBNotification
