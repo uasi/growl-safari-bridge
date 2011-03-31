@@ -20,6 +20,7 @@
             description:(NSString *)description;
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
+               imageurl:(NSString *)imageurl
                 options:(WebScriptObject *)options;
 @end
 
@@ -64,7 +65,7 @@
     if (selector == @selector(notifyWithTitle:description:)) {
         return @"notify";
     }
-    else if (selector == @selector(notifyWithTitle:description:options:)) {
+    else if (selector == @selector(notifyWithTitle:description:imageurl:options:)) {
         return @"notifyWithOptions";
     }
     return nil;
@@ -75,7 +76,7 @@
     if (selector == @selector(isGrowlInstalled) ||
         selector == @selector(isGrowlRunning) ||
         selector == @selector(notifyWithTitle:description:) ||
-        selector == @selector(notifyWithTitle:description:options:)) {
+        selector == @selector(notifyWithTitle:description:imageurl:options:)) {
         return NO;
     }
     return YES;
@@ -110,6 +111,7 @@
 
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
+               imageurl:(NSString *)imageurl
                 options:(id)options
 {
     
@@ -126,10 +128,13 @@
         priority = [NSNumber numberWithInt:0];
     }
     
+    NSImage *image =  [[[NSImage alloc] initByReferencingURL:[NSURL URLWithString:imageurl]] retain];
+   
+    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:GSBNotification
-                                   iconData:nil
+                                   iconData:[image TIFFRepresentation]
                                    priority:[priority intValue]
                                    isSticky:[isSticky boolValue]
                                clickContext:nil];
