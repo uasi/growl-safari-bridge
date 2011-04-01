@@ -1,4 +1,5 @@
-*.pbxuser
-*.mode?v?
-
-/build/
+*.xcodeproj/*
+**/*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!**/*.xcodeproj/project.pbxproj
+build/
