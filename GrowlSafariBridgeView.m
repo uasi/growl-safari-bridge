@@ -112,13 +112,17 @@
             description:(NSString *)description
                 options:(id)options
 {
-    
     NSNumber *isSticky = nil;
     NSNumber *priority = nil;
-    if (options != nil && [options isEqual:[WebUndefined undefined]]) {
+    NSString *imageURL = nil;
+    NSData *iconData = nil;
+    
+    if (options != nil && ![options isEqual:[WebUndefined undefined]]) {
         isSticky = [options valueForKey:@"isSticky"];
         priority = [options valueForKey:@"priority"];
+        imageURL = [options valueForKey:@"imageUrl"];
     }
+    
     if (isSticky == nil) {
         isSticky = [NSNumber numberWithBool:NO];
     }
@@ -126,10 +130,16 @@
         priority = [NSNumber numberWithInt:0];
     }
     
+    if (imageURL != nil) {
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageURL]];
+        iconData = [image TIFFRepresentation];
+        [image release];
+    }
+    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:GSBNotification
-                                   iconData:nil
+                                   iconData:iconData
                                    priority:[priority intValue]
                                    isSticky:[isSticky boolValue]
                                clickContext:nil];
