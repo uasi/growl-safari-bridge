@@ -20,7 +20,6 @@
             description:(NSString *)description;
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
-               imageurl:(NSString *)imageurl
                 options:(WebScriptObject *)options;
 @end
 
@@ -65,7 +64,7 @@
     if (selector == @selector(notifyWithTitle:description:)) {
         return @"notify";
     }
-    else if (selector == @selector(notifyWithTitle:description:imageurl:options:)) {
+    else if (selector == @selector(notifyWithTitle:description:options:)) {
         return @"notifyWithOptions";
     }
     return nil;
@@ -76,7 +75,7 @@
     if (selector == @selector(isGrowlInstalled) ||
         selector == @selector(isGrowlRunning) ||
         selector == @selector(notifyWithTitle:description:) ||
-        selector == @selector(notifyWithTitle:description:imageurl:options:)) {
+        selector == @selector(notifyWithTitle:description:options:)) {
         return NO;
     }
     return YES;
@@ -111,16 +110,19 @@
 
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
-               imageurl:(NSString *)imageurl
                 options:(id)options
 {
-    
     NSNumber *isSticky = nil;
     NSNumber *priority = nil;
-    if (options != nil && [options isEqual:[WebUndefined undefined]]) {
+    NSString *imageURL = nil;
+    NSData *iconData = nil;
+    
+    if (options != nil && ![options isEqual:[WebUndefined undefined]]) {
         isSticky = [options valueForKey:@"isSticky"];
         priority = [options valueForKey:@"priority"];
+        imageURL = [options valueForKey:@"imageUrl"];
     }
+    
     if (isSticky == nil) {
         isSticky = [NSNumber numberWithBool:NO];
     }
@@ -128,17 +130,19 @@
         priority = [NSNumber numberWithInt:0];
     }
     
-    NSImage *image =  [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageurl]];
-   
+    if (imageURL != nil) {
+        NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageURL]];
+        iconData = [image TIFFRepresentation];
+        [image release];
+    }
+    
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:GSBNotification
-                                   iconData:[image TIFFRepresentation]
+                                   iconData:iconData
                                    priority:[priority intValue]
                                    isSticky:[isSticky boolValue]
                                clickContext:nil];
-    
-    [image release];
 }
 
 @end
