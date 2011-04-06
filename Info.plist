@@ -16,16 +16,14 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>WBPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.0</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlSafariBridgeView</string>
-	<key>WebPluginName</key>
-	<string>Growl Safari Bridge</string>
 	<key>WebPluginDescription</key>
 	<string>Growl Safari Bridge</string>
 	<key>WebPluginMIMETypes</key>
@@ -36,5 +34,7 @@
 			<string>Growl Safari Bridge</string>
 		</dict>
 	</dict>
+	<key>WebPluginName</key>
+	<string>Growl Safari Bridge</string>
 </dict>
 </plist>
