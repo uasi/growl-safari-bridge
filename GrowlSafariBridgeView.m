@@ -3,11 +3,10 @@
 //  GrowlSafariBridge
 //
 //  Created by uasi on 10/10/04.
-//  Copyright 99cm.org 2010. All rights reserved.
+//  Copyright isdead.info 2011. All rights reserved.
 //
 
 #import "GrowlSafariBridgeView.h"
-#import <WebKit/WebKit.h>
 #import <Growl/GrowlApplicationBridge.h>
 
 
