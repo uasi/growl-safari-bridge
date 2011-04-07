@@ -95,10 +95,12 @@
             description:(NSString *)description
                 options:(id)options
 {
-    NSNumber *isSticky = nil;
-    NSNumber *priority = nil;
-    NSString *imageURL = nil;
-    NSData *iconData = nil;
+    if (title == nil || ![title isKindOfClass:[NSString class]]) {
+        title = [title description];
+    }
+    if (description == nil || ![description isKindOfClass:[NSString class]]) {
+        description = [description description];
+    }
     
     if (options == nil || [options isEqual:[WebUndefined undefined]]) {
         [GrowlApplicationBridge notifyWithTitle:title
@@ -111,17 +113,24 @@
         return;
     }
     
-    if (isSticky == nil) {
+    NSNumber *isSticky = [options valueForKey:@"isSticky"];
+    NSNumber *priority = [options valueForKey:@"priority"];
+    NSString *imageURL = [options valueForKey:@"imageUrl"];
+    NSData *iconData = nil;
+    
+    if (isSticky == nil || ![isSticky isKindOfClass:[NSNumber class]]) {
         isSticky = [NSNumber numberWithBool:NO];
     }
-    if (priority == nil) {
+    if (priority == nil || ![priority isKindOfClass:[NSNumber class]]) {
         priority = [NSNumber numberWithInt:0];
     }
     
-    if (imageURL != nil) {
+    if (imageURL != nil && [imageURL isKindOfClass:[NSString class]]) {
         NSImage *image = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        iconData = [image TIFFRepresentation];
-        [image release];
+        if (image != nil) {
+            iconData = [image TIFFRepresentation];
+            [image release];
+        }
     }
     
     [GrowlApplicationBridge notifyWithTitle:title
