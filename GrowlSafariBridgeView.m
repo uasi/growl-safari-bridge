@@ -7,6 +7,7 @@
 //
 
 #import "GrowlSafariBridgeView.h"
+#import <WebKit/WebKit.h>
 #import <Growl/GrowlApplicationBridge.h>
 
 
@@ -16,8 +17,6 @@
 @interface GrowlSafariBridgeView (ExposedMethods)
 - (BOOL)isGrowlInstalled;
 - (BOOL)isGrowlRunning;
-- (void)notifyWithTitle:(NSString *)title
-            description:(NSString *)description;
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
                 options:(WebScriptObject *)options;
@@ -61,11 +60,8 @@
 
 + (NSString *)webScriptNameForSelector:(SEL)selector
 {
-    if (selector == @selector(notifyWithTitle:description:)) {
+    if (selector == @selector(notifyWithTitle:description:options:)) {
         return @"notify";
-    }
-    else if (selector == @selector(notifyWithTitle:description:options:)) {
-        return @"notifyWithOptions";
     }
     return nil;
 }
@@ -74,7 +70,6 @@
 {
     if (selector == @selector(isGrowlInstalled) ||
         selector == @selector(isGrowlRunning) ||
-        selector == @selector(notifyWithTitle:description:) ||
         selector == @selector(notifyWithTitle:description:options:)) {
         return NO;
     }
@@ -98,18 +93,6 @@
 
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
-{
-    [GrowlApplicationBridge notifyWithTitle:title
-                                description:description
-                           notificationName:GSBNotification
-                                   iconData:nil
-                                   priority:0
-                                   isSticky:NO
-                               clickContext:nil];
-}
-
-- (void)notifyWithTitle:(NSString *)title
-            description:(NSString *)description
                 options:(id)options
 {
     NSNumber *isSticky = nil;
@@ -117,10 +100,15 @@
     NSString *imageURL = nil;
     NSData *iconData = nil;
     
-    if (options != nil && ![options isEqual:[WebUndefined undefined]]) {
-        isSticky = [options valueForKey:@"isSticky"];
-        priority = [options valueForKey:@"priority"];
-        imageURL = [options valueForKey:@"imageUrl"];
+    if (options == nil || [options isEqual:[WebUndefined undefined]]) {
+        [GrowlApplicationBridge notifyWithTitle:title
+                                    description:description
+                               notificationName:GSBNotification
+                                       iconData:nil
+                                       priority:0
+                                       isSticky:NO
+                                   clickContext:nil];
+        return;
     }
     
     if (isSticky == nil) {
