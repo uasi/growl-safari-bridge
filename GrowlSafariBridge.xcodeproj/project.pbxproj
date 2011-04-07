@@ -29,7 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0259C576FE90428111CA0C5A /* GrowlSafariBridgeView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GrowlSafariBridgeView.m; sourceTree = "<group>"; };
+		0259C576FE90428111CA0C5A /* GrowlSafariBridgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlSafariBridgeView.m; sourceTree = "<group>"; };
 		0259C57AFE90428111CA0C5A /* GrowlSafariBridgeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GrowlSafariBridgeView.h; sourceTree = "<group>"; };
 		224339570A6F05F3000348D4 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		32DBCF980370C29C00C91783 /* GrowlSafariBridge_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlSafariBridge_Prefix.pch; sourceTree = "<group>"; };

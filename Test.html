@@ -9,7 +9,8 @@
       window.GrowlSafariBridge = document.getElementById('growl-safari-bridge');
       GrowlSafariBridge.notify('Hello', 'This is Growl Safari Bridge.');
       // call with values of unexptected types
-      GrowlSafariBridge.notify(0, undefined, {isSticky: 0, priority: 'blah', imageUrl: 0});
+      // NOTE: notifyWithOptions() is deprecated since v1.0.1; use notify() instead
+      GrowlSafariBridge.notifyWithOptions(0, undefined, {isSticky: 0, priority: 'blah', imageUrl: 0});
     </script>
     <a href="#" onclick="javascript:GrowlSafariBridge.notify('Notification', 'Link was clicked.',{isSticky: false, priority: -1, imageUrl: 'http://a1.twimg.com/sticky/default_profile_images/default_profile_0_bigger.png'})">Click here</a>
   </body>

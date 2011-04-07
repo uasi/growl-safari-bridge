@@ -20,6 +20,12 @@
 - (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
                 options:(WebScriptObject *)options;
+
+// NOTE:
+// Defined only for backward compatibility
+- (void)_notifyWithTitle:(NSString *)title
+             description:(NSString *)description
+                 options:(WebScriptObject *)options;
 @end
 
 
@@ -63,6 +69,12 @@
     if (selector == @selector(notifyWithTitle:description:options:)) {
         return @"notify";
     }
+
+    // invokeUndefinedMethodFromWebScript:withArguments: で notifyWithOptions を
+    // notify に飛ばしたほうがいいんだけど、なぜか invoke〜 が呼ばれないので別に定義
+    if (selector == @selector(_notifyWithTitle:description:options:)) {
+        return @"notifyWithOptions";
+    }
     return nil;
 }
 
@@ -70,7 +82,8 @@
 {
     if (selector == @selector(isGrowlInstalled) ||
         selector == @selector(isGrowlRunning) ||
-        selector == @selector(notifyWithTitle:description:options:)) {
+        selector == @selector(notifyWithTitle:description:options:) ||
+        selector == @selector(_notifyWithTitle:description:options:)) {
         return NO;
     }
     return YES;
@@ -140,6 +153,16 @@
                                    priority:[priority intValue]
                                    isSticky:[isSticky boolValue]
                                clickContext:nil];
+}
+
+- (void)_notifyWithTitle:(NSString *)title
+             description:(NSString *)description
+                 options:(WebScriptObject *)options
+{
+    NSLog(@"GrowlSafariBridge: notifyWithOptions() is deprecated");
+    [self notifyWithTitle:title
+              description:description
+                  options:options];
 }
 
 @end
